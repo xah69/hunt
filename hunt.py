@@ -30,8 +30,22 @@ from reportlab.lib.styles import getSampleStyleSheet
 
 root = tk.Tk()
 root.title("Stock Signals App")
+# Entry for entering the start date
+start_date_label = tk.Label(root, text="Enter Start Date (YYYY-MM-DD):")
+start_date_label.pack(pady=5)
+start_date_entry = tk.Entry(root)
+start_date_entry.pack(pady=5)
+
+# Entry for entering the end date
+end_date_label = tk.Label(root, text="Enter End Date (YYYY-MM-DD):")
+end_date_label.pack(pady=5)
+end_date_entry = tk.Entry(root)
+end_date_entry.pack(pady=5)
 def find_single_stock_signal():
     stock_code = single_stock_entry.get().strip().upper()
+    start_date = start_date_entry.get().strip()
+    end_date = end_date_entry.get().strip()
+
 
     try:
         data = yf.download(stock_code, start=start_date, end=end_date)
@@ -185,8 +199,8 @@ sectors = {
 }
 
 # Define the date range
-start_date = '2023-01-01'
-end_date = '2023-08-01'
+#start_date = '2023-01-01'
+#end_date = '2023-08-01'
 
 # Create the main GUI window
 
@@ -199,6 +213,8 @@ for col in columns:
 treeview.pack(fill=tk.BOTH, expand=True)
 
 def fetch_and_display():
+    start_date = start_date_entry.get().strip()
+    end_date = end_date_entry.get().strip()
     treeview.delete(*treeview.get_children())
 
     for sector, sector_stocks in sectors.items():
@@ -223,6 +239,9 @@ def fetch_and_display():
 styles = getSampleStyleSheet()
 
 def generate_pdf():
+    start_date = start_date_entry.get().strip()
+    end_date = end_date_entry.get().strip()
+    
     doc = SimpleDocTemplate("stock_signals.pdf", pagesize=letter)
     story = []
 
